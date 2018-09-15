@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 include_once("seguranca.php");
 
@@ -103,6 +103,7 @@ include_once("conexao.php");
 		$pag[55] = "listar_metodo_pgto.php";
 		$pag[56] = "editar_metodo_pgto.php";
 		$pag[57] = "cad_metodo_pagamento.php";
+		$pag[58] = "valida_caixa.php";
 
 		if(!empty($link)){
 			if(file_exists($pag[$link])){

@@ -33,7 +33,7 @@ $situacao_id 		= $_POST["situacao_id"];
 $user	 	 		= $_POST["user"];
 
 //Pasta onde o arquivo vai ser salvo
-$_UP['pasta'] = '../../foto/';
+$_UP['pasta'] = '/Applications/XAMPP/xamppfiles/htdocs/foto/';
 
 //Tamanho máximo do arquivo em Bytes
 $_UP['tamanho'] = 1024*1024*100; //5mb
