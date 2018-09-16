@@ -8,7 +8,7 @@ $result = mysqli_query($conectar,"SELECT * FROM usuarios WHERE login='$usuariot'
 $resultado = mysqli_fetch_assoc($result);
 
 
-// echo "Usuario: ".$resultado['nome'];
+//echo "Usuario: ".$resultado['nome'];
 if(empty($resultado)){
 		
 	//Mensagem de Erro
@@ -27,12 +27,9 @@ if(empty($resultado)){
 	$_SESSION['clube'] 				= $resultado['cod_clube'];
 
 	if($resultado['nivel_acesso_id'] == 1){
-		// echo "<meta HTTP-EQUIV='Refresh' CONTENT=0;URL='http://localhost/adm/administrativo.php>'";
-		// header("Location: http://localhost/adm/administrativo.php");
 		header("Location: administrativo.php");
 	}else{
 		header("Location: usuario.php");
 	}
-
 }
 ?>
