@@ -93,6 +93,8 @@ if ($erro==false) {
 
 	$query = mysqli_query($conectar,"INSERT INTO usuarios (nome, email, login, senha, nivel_acesso_id, created, modified, endereco, documento, telefone, plano, saldo, nascimento, flag_user_ativo, cod_clube, cidade) VALUES ('$nome', '$email', '$usuario', '$senha', '$nivel_de_acesso', NOW(), NOW(), '$endereco', '$documento', '$telefone', '$nivel_plano', '$saldo', '$nascimento','1','$cod_clube','$cidade')");
 }
+var_dump("INSERT INTO usuarios (nome, email, login, senha, nivel_acesso_id, created, modified, endereco, documento, telefone, plano, saldo, nascimento, flag_user_ativo, cod_clube, cidade) VALUES ('$nome', '$email', '$usuario', '$senha', '$nivel_de_acesso', NOW(), NOW(), '$endereco', '$documento', '$telefone', '$nivel_plano', '$saldo', '$nascimento','1','$cod_clube','$cidade')");
+var_dump($tipo_erro);
 	
 	?>
 

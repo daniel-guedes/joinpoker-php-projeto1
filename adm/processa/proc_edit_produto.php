@@ -33,8 +33,14 @@ $estoque 			= $_POST["estoque"];
 $user 				= $_POST["user"];
 
 //ATUALIZA QUANTIDADE EM ESTOQUE DO PRODUTO EDITADO
-$resultado =mysqli_query($conectar, "UPDATE estoque SET qtd_produto ='$estoque' WHERE id_produto='$id'");
 
+$prod = mysqli_query($conectar, "SELECT qtd_produto from estoque WHERE id_produto = $id");
+
+if (!empty($prod) && ($prod =! null)){
+	$resultado =mysqli_query($conectar, "UPDATE estoque SET qtd_produto ='$estoque' WHERE id_produto='$id'");
+}else{
+	$resultado =mysqli_query($conectar, "INSERT INTO estoque (qtd_produto,cod_clube,id_produto) VALUES ('$estoque',1,'$id'");	
+}
 
 if($arquivo == ""){
 	$query = mysqli_query($conectar,"UPDATE produtos SET
@@ -47,6 +53,7 @@ if($arquivo == ""){
 		slug			='$slug',
 		categoria_id 	='$categoria_id',
 		situacao_id 	='$situacao_id',
+		estoque 		='$estoque',
 		modified = NOW() WHERE id='$id'");
 	
 		if (mysqli_affected_rows($conectar) != 0 ){	
@@ -105,6 +112,7 @@ if($arquivo == ""){
 		tag 			='$tag',
 		description		='$description',
 		categoria_id 	='$categoria_id',
+		estoque 		='$estoque',
 		situacao_id 	='$situacao_id',
 		modified = NOW() WHERE id='$id'");
 	
@@ -137,6 +145,7 @@ if($arquivo == ""){
 		tag 			='$tag',
 		description		='$description',
 		categoria_id 	='$categoria_id',
+		estoque 		='$estoque',
 		situacao_id 	='$situacao_id',
 		modified = NOW() WHERE id='$id'");
 		
@@ -181,6 +190,7 @@ if($arquivo == ""){
 			description		='$description',
 			imagem 			='$nome_final',
 			categoria_id 	='$categoria_id',
+			estoque 		='$estoque',
 			situacao_id 	='$situacao_id',
 			modified = NOW() WHERE id='$id'");
 			

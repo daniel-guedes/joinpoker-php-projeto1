@@ -214,11 +214,11 @@ if(isset($_SESSION['usuarioNome'])){
 
 			    </script>
 			
-			<td><button type='button' class='btn btn-sm btn-success' onclick="post()">Vender</button></td>
+			<td><button type='button' class='btn btn-sm btn-success' onclick="valida_post()">Vender</button></td>
 		</tr>
 		</table>
 	</div>
-	</div>
+	</div>	
   </div>
   <div class="row">
 	<div class="col-md-12">

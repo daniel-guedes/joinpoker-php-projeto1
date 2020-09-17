@@ -24,17 +24,15 @@ include_once("conexao.php");
     <link rel="icon" href="imagens/favicon.ico">
     <meta rel="">
     <title>Administrativo</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
-    <link href="css/theme.css" rel="stylesheet">
-    <script src="js/ie-emulation-modes-warning.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.min.js"></script>
     <link href="css/theme.css" rel="stylesheet">
     <script src="js/jquery_3_1.js"></script>
     <script src="js/jquery.mask.js"></script>
     <script src="js/mascaras.js"></script>
-    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+    <script src="js/ie-emulation-modes-warning.js"></script>
  
   </head>
 

@@ -136,49 +136,49 @@ addEvent(window, "load", iniciarMudancaDeEnterPorTab);
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">Nome</label>
 			<div class="col-sm-10">
-			  <input type="text" class="form-control" name="nome" required tabindex="0" placeholder="Nome Completo" value="<?php echo $resultado['nome']; ?>">
+			  <input type="text" class="form-control" name="nome" required tabindex="1" placeholder="Nome Completo" value="<?php echo $resultado['nome']; ?>">
 			</div>
 		  </div>
 		  
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">E-mail</label>
 			<div class="col-sm-10">
-			  <input type="email" tabindex="1" class="form-control" id="email" name="email" required placeholder="E-mail" value="<?php echo $resultado['email']; ?>">
+			  <input type="email" tabindex="2" class="form-control" id="email" name="email" required placeholder="E-mail" value="<?php echo $resultado['email']; ?>">
 			</div>
 		  </div>
 		  
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">Usuário</label>
 			<div class="col-sm-10">
-			  <input type="text" tabindex="2" class="form-control" id="usuario" name="usuario" required placeholder="Usuário" value="<?php echo $resultado['login']; ?>" >
+			  <input type="text" tabindex="3" class="form-control" id="usuario" name="usuario" required placeholder="Usuário" value="<?php echo $resultado['login']; ?>" >
 			</div>
 		  </div>	
 		  
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">Endereço</label>
 			<div class="col-sm-10">
-			  <input type="text" tabindex="3" class="form-control" id="endereco" name="endereco" placeholder="endereco" value="<?php echo $resultado['endereco']; ?>">
+			  <input type="text" tabindex="4" class="form-control" id="endereco" name="endereco" placeholder="endereco" value="<?php echo $resultado['endereco']; ?>">
 			</div>
 		  </div>
 		  
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">RG</label>
 			<div class="col-sm-10">
-			  <input type="text" tabindex="4" class="form-control" required id="documento" name="documento" id="cpf" placeholder="documento" value="<?php echo $resultado['documento']; ?>">
+			  <input type="text" tabindex="5" class="form-control" required id="documento" name="documento" id="cpf" placeholder="documento" value="<?php echo $resultado['documento']; ?>">
 			</div>
 		  </div>
 		  
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">Telefone</label>
 			<div class="col-sm-10">
-			  <input type="tel" tabindex="5" class="form-control" required name="telefone" id="tel" placeholder="Celular" value="<?php echo $resultado['telefone']; ?>">
+			  <input type="tel" tabindex="6" class="form-control" required name="telefone" id="tel" placeholder="Celular" value="<?php echo $resultado['telefone']; ?>">
 			</div>
 		  </div>
 		  
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">Plano</label>
 			<div class="col-sm-10">
-			  <select class="form-control" tabindex="6" name="plano">
+			  <select class="form-control" tabindex="7" name="plano">
 			  <?php
 
 			  while ($resultado_planos = mysqli_fetch_array($result_planos)) {
@@ -194,21 +194,21 @@ addEvent(window, "load", iniciarMudancaDeEnterPorTab);
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">Data Nascimento</label>
 			<div class="col-sm-10">
-			  <input type="text" tabindex="7" class="form-control"  required name="nascimento" id="data" placeholder="nascimento" value="<?php echo $resultado['nascimento']; ?>">
+			  <input type="text" tabindex="8" class="form-control"  required name="nascimento" id="data" placeholder="nascimento" value="<?php echo $resultado['nascimento']; ?>">
 			</div>
 		  </div>
 		  
 		  <div class="form-group">
 			<label for="inputPassword3" class="col-sm-2 control-label">Senha</label>
 			<div class="col-sm-10">
-			  <input type="password" tabindex="8" class="form-control" required name="senha" id="senha" placeholder="Senha">
+			  <input type="password" tabindex="9" class="form-control" required name="senha" id="senha" placeholder="Senha">
 			</div>
 		  </div>
 		  
 		  <div class="form-group">
 			<label for="inputPassword3" class="col-sm-2 control-label">Nivel de Acesso</label>
 			<div class="col-sm-10">
-			  <select class="form-control" tabindex="9" name="nivel_de_acesso">
+			  <select class="form-control" tabindex="10" name="nivel_de_acesso">
 					<option>Selecione</option>
 					<option value="1"
 					<?php
@@ -231,7 +231,7 @@ addEvent(window, "load", iniciarMudancaDeEnterPorTab);
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">Cidade</label>
 			<div class="col-sm-10">
-			  <input type="text" tabindex="10" class="form-control" name="cidade" placeholder="cidade" value="<?php echo $resultado['cidade']; ?>">
+			  <input type="text" tabindex="11" class="form-control" name="cidade" placeholder="cidade" value="<?php echo $resultado['cidade']; ?>">
 			</div>
 		  </div>
 
