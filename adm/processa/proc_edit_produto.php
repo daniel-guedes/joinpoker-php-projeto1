@@ -36,10 +36,10 @@ $user 				= $_POST["user"];
 
 $prod = mysqli_query($conectar, "SELECT qtd_produto from estoque WHERE id_produto = $id");
 
-if (!empty($prod) && ($prod =! null)){
-	$resultado =mysqli_query($conectar, "UPDATE estoque SET qtd_produto ='$estoque' WHERE id_produto='$id'");
+if (!empty($prod) && mysqli_num_rows($prod) > 0 ){
+	$resultado =mysqli_query($conectar, "UPDATE estoque SET qtd_produto = $estoque WHERE id_produto=$id ");
 }else{
-	$resultado =mysqli_query($conectar, "INSERT INTO estoque (qtd_produto,cod_clube,id_produto) VALUES ('$estoque',1,'$id'");	
+	$resultado =mysqli_query($conectar, "INSERT INTO estoque (qtd_produto,cod_clube,id_produto) VALUES ($estoque,1,$id)");	
 }
 
 if($arquivo == ""){

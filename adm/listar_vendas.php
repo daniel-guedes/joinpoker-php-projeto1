@@ -9,59 +9,36 @@
 	include_once("conexao.php");
 
 	$cod_clube = 1;
+	$abrir_caixa = $POST['abrir_caixa'];
+	$fechar_caixa = $POST['fechar_caixa'];
 
-	$sql = "SELECT id, 
-				cod_caixa,
-				data_abertura,
-				data_fechamento,
-				valor_pagar,
-				valor_pago,
-				current_date as data_hoje
-			FROM caixa
-		WHERE cod_admin = '".$_SESSION['usuarioId']."' 
-		AND cod_clube = '".$_SESSION['clube']."' 
-		AND data_fechamento is not null";
+	if($fechar_caixa == true){
+		$sql = "SELECT cod_caixa,
+					data_abertura,
+					data_fechamento,
+					valor_pagar,
+					valor_pago,
+					current_date as data_hoje
+				FROM caixa
+			WHERE cod_admin = '".$_SESSION['usuarioId']."' 
+			AND cod_clube = '".$_SESSION['clube']."' 
+			AND data_fechamento is null";
+		
+		$request=mysqli_query($conectar, $sql);
+		$caixa = mysqli_fetch_assoc($request);
+		//var_dump($caixa);\
 
-	$request=mysqli_query($conectar, $sql );
-	$caixa = mysqli_fetch_assoc($request);
+		//faz update fechando o caixa e colocando o valor a pagar somando todas as vendas finalizadas do caixa, se houver alguma venda aberta alertar para fechar a venda. 
 
-	if(!empty($caixa)){
-			// trazer o caixa e dados de cadatro. 
-		// ao efetuar uma venda tera que atualizar o caixa colocando o valor a pagar e valor pago atualizando sempre até o fechamento do caixa. depois que o caixa é fechado não poderá mais ser alterada as vendas. 
-
-
-		$id_caixa = $caixa["id"];
-		$cod_caixa = $caixa["cod_caixa"];
-		$data_abertura  = $caixa["data_abertura"];
-		$data_fechamento = $caixa["data_fechamento"];
-		$valor_a_pagar = $caixa["valor_pagar"];
-		$valor_a_pagar = $caixa["valor_pago"];
-
-   		// var_dump($id_caixa);exit;
-   		?>
-   		<div class="container theme-showcase" role="main">     
-	   		<div class="pull-right div_fecha_caixa">
-				<h3>Caixa Aberto</h1>
-					<!-- href="administrativo.php?link=58" -->
-				<a><button type='button'  class='btn btn-sm btn-danger fecharCaixa'>Fechar Caixa</button></a>
-		  	</div>
-		  	<div class="pull-right div_abre_caixa">
-				<h3>Caixa Fechado</h1>
-					<!-- href="administrativo.php?link=58" -->
-				<a><button type='button'  class='btn btn-sm btn-success abrirCaixa'>Abrir Caixa</button></a>
-		  	</div>
-
-	  	</div>
-
-   		<?php
- 
-	} else if($abrir_caixa == true) {
+	}
+	if($abrir_caixa == true) {
 		// fazer inser de um novo caixa e criacao da data de abertura com atual data no sistema
 		// nao deixar abrir outro caixa se houver um caixa aberto (por clube , se admin optar por 2 clubes vai ter opcao de selecionar na tela para mostrar 1 ou 2 ou todos por admin tambem)
 
 		$sql = "SELECT cod_caixa FROM caixa WHERE 
 								cod_admin = '".$_SESSION['usuarioId']."'  
-							AND cod_clube = '".$_SESSION['clube']."' ";
+							AND cod_clube = '".$_SESSION['clube']."' 
+							AND data_fechamento is null";
 
 
 		$cod_caixa = mysqli_query($conectar, $sql);
@@ -73,7 +50,7 @@
 			$cod_caixa = $cod_caixa + 1;
 		}
 
-		$sql = "INSERT INTO caixa(cod_caixa, data_abertura ) VALUES ( '".$cod_caixa."' , current_timestamp )";
+		$sql = "INSERT INTO caixa(data_abertura ) VALUES ( '".$cod_caixa."' , current_timestamp )";
 		$result = mysqli_query($conectar, $sql);
 	    $caixa_id = mysqli_insert_id($conectar);
 
@@ -92,9 +69,26 @@
 	$cod_clube = 1;
 	$resultado=mysqli_query($conectar,"SELECT u.nome, x.data_venda, x.cod_venda, SUM(x.valor_produto) AS valor_acumulado, SUM(valor_acum_produto) AS valor_final, x.meio_pgto, x.data_pgto, m.descricao_metodo_pgto FROM (SELECT v.*, d.cod_produto, d.qtd_produto, d.valor_produto, d.qtd_produto*d.valor_produto AS valor_acum_produto, d.data_venda FROM vendas AS v INNER JOIN venda_dados AS d ON d.cod_venda = v.cod_venda WHERE v.cod_clube = '$cod_clube') AS x INNER JOIN usuarios AS u ON u.id = x.cod_cliente LEFT JOIN metodos_pgto AS m ON m.cod_metodo_pgto = x.meio_pgto GROUP BY u.nome, x.data_venda, x.cod_venda, x.meio_pgto, x.data_pgto, m.descricao_metodo_pgto order by x.data_venda");
 	$linhas=mysqli_num_rows($resultado);
+?>
+	<div class="container theme-showcase" role="main">     
+		 <?php if($caixa_aberto == true){?>
+
+		<div class="pull-right div_fecha_caixa">
+			<h3>Caixa Aberto</h1>
+				<!-- href="administrativo.php?link=58" -->
+			<a><button type='button'  class='btn btn-sm btn-danger fecharCaixa'>Fechar Caixa</button></a>
+		</div>
+		<?php }else{ ?>
+
+		<div class="pull-right div_abre_caixa">
+			<h3>Caixa Fechado</h1>
+				<!-- href="administrativo.php?link=58" -->
+			<a><button type='button'  class='btn btn-sm btn-success abrirCaixa'>Abrir Caixa</button></a>
+		</div>
+		<?php }?>
+
+	</div>
 ?>	
-
-
 
 
 
@@ -130,7 +124,7 @@
 						echo "<td>".$linhas['nome']."</td>";
 						echo "<td>".number_format($linhas['valor_final'], 2, ',', '.')."</td>";
 						echo "<td>".date("d/m/Y", strtotime($linhas['data_venda']))."</td>";
-						echo "<td>".date("d/m/Y", strtotime($linhas['data_pgto']))."</td>";
+						echo "<td>".$linhas['data_pgto']."</td>";
 						echo "<td>".$linhas['descricao_metodo_pgto']."</td>";
 						?>
 						<td> 
