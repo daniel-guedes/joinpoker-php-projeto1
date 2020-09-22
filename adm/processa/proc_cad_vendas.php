@@ -24,8 +24,10 @@ session_start();
 	}else{
 		$ultima_venda = ($ultima_venda[0]*1)+1;
 	}
+	$cod_caixa = mysqli_fetch_array(mysqli_query($conectar,"SELECT MAX(cod_caixa) AS cod_caixa FROM caixa"));
 
-	$query = mysqli_query($conectar,"INSERT INTO vendas (cod_cliente, cod_clube, cod_venda) VALUES ('$cliente_id','$cod_clube','$ultima_venda')");
+
+	$query = mysqli_query($conectar,"INSERT INTO vendas (cod_cliente, cod_clube, cod_venda, cod_caixa) VALUES ('$cliente_id','$cod_clube','$ultima_venda', '$cod_caixa')");
 
 	$temp_cod_prod = explode("-",$cod_produtos);
 	$temp_val_prod = explode("-",$valor_produto);

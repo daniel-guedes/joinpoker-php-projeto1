@@ -43,7 +43,7 @@
 						echo "<td>".$linhas['cod_venda']."</td>";
 						echo "<td>".$linhas['data_venda']."</td>";
 						echo "<td>".$linhas['nome']."</td>";
-						echo "<td>".number_format(($linhas['valor_produto']*1), 2, ',', '.')."</td>"; 
+						echo "<td>".$linhas['valor_produto']*1)."</td>"; 
 						$valor_final = $valor_final+(($linhas['valor_produto']*1)*$linhas['qtd_produto']);
 						echo "<td>".$linhas['qtd_produto']."</td>"; 
 						$qtd_final = $qtd_final+($linhas['qtd_produto']*1);
