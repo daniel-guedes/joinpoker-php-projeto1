@@ -9,6 +9,7 @@
 	include_once("conexao.php");
 
 	$cod_clube = $_SESSION['clube'];
+	$cod_usuario = $_SESSION['usuarioId'];
 	$abrir_caixa =  $_GET['abrir_caixa'];
 	$fechar_caixa = $_GET['fechar_caixa'];
 
@@ -19,17 +20,22 @@
 					valor_pago,
 					current_date as data_hoje
 				FROM caixa
-			WHERE cod_admin = '".$_SESSION['usuarioId']."' 
+			WHERE cod_admin = '".$cod_usuario."' 
 			AND cod_clube = '".$cod_clube."' 
 			AND data_fechamento is null";
 	
 	$request=mysqli_query($conectar, $sql);
+	// echo $sql;
 	$caixa = mysqli_fetch_assoc($request);
+	
+	//var_dump($caixa); NULL se nao encontrar um caixa aberto.	
+
 	if(!empty($caixa['cod_caixa'])){
 		$nova_venda = true;
 	}else{
 		$nova_venda = false;
 	}
+
 	if($fechar_caixa == true){
 		//faz update fechando o caixa e colocando o valor a pagar somando todas as vendas finalizadas do caixa, se houver alguma venda aberta colocar como em debito e finalizar as vendas pro usuario
 		//quando estiver pronto colocar pra mostrar os pedidos para finalizar e informar como sera finalizado.
@@ -42,7 +48,7 @@
 			$sql = "SELECT v.cod_venda, d.qtd_produto*d.valor_produto as valor_pago
 						FROM  vendas v 
 						INNER JOIN venda_dados d ON v.cod_venda = d.cod_venda
-						WHERE v.cod_usuario = '".$_SESSION['usuarioId']."' 
+						WHERE v.cod_usuario = '".$cod_usuario."' 
 					AND v.cod_clube = '".$cod_clube."' 
 					AND v.pago is null 
 					AND v.fechado is null";
@@ -56,7 +62,7 @@
 				$sql = "SELECT v.cod_venda ,SUM(d.qtd_produto * ROUND(d.valor_produto,2)) as valor_pago 
  						FROM vendas v 
 						JOIN venda_dados d ON v.cod_venda = d.cod_venda
-						WHERE v.cod_usuario = '".$_SESSION['usuarioId']."' 
+						WHERE v.cod_usuario = '".$cod_usuario."' 
 					AND v.cod_clube = '".$cod_clube."' 
 					AND v.cod_caixa = '".$caixa['cod_caixa']."'
 					AND v.pago = 'SIM'
@@ -91,30 +97,30 @@
 		// fazer inser de um novo caixa e criacao da data de abertura com atual data no sistema
 		// nao deixar abrir outro caixa se houver um caixa aberto (por clube , se admin optar por 2 clubes vai ter opcao de selecionar na tela para mostrar 1 ou 2 ou todos por admin tambem)
 
-		$sql = "SELECT cod_caixa FROM caixa WHERE 
-								cod_admin = '".$_SESSION['usuarioId']."'  
-							AND cod_clube = '".$cod_clube."' 
-							AND data_fechamento is null";
+		// $sql = "SELECT cod_caixa FROM caixa WHERE 
+		// 						cod_admin = '".$cod_usuario."'  
+		// 					AND cod_clube = '".$cod_clube."' 
+		// 					AND data_fechamento is not null";
 
 
-		$cod_caixa = mysqli_query($conectar, $sql);
-		$cod_caixa = (int) mysqli_fetch_assoc($cod_caixa);
+		// $cod_caixa = mysqli_query($conectar, $sql);
+		// $cod_caixa = mysqli_fetch_assoc($cod_caixa);
 
-		if($cod_caixa == null){
-			$cod_caixa = 1;
-		}else{
-			$cod_caixa = $cod_caixa + 1;
-		}
+		// if($cod_caixa == null){
+		// 	$cod_caixa = 1;
+		// }else{
+		// 	$cod_caixa = $cod_caixa + 1;
+		// }
 
-		$sql = "INSERT INTO caixa(data_abertura ) VALUES ( '".$cod_caixa."' , current_timestamp )";
+		$sql = "INSERT INTO caixa(data_abertura,cod_admin,cod_clube) VALUES (current_timestamp,$cod_usuario,$cod_clube )";
+		// echo $sql;
 		$result = mysqli_query($conectar, $sql);
-	    // $caixa_id = mysqli_insert_id($conectar);
-
-		// var_dump($caixa_id);exit;
+	    // var_dump($result);
+	    $nova_venda = true;
 	}
 	
 	// inicia o listar venda
-	
+
 	$resultado=mysqli_query($conectar,"SELECT u.nome,
 							 x.data_venda,
 							 x.cod_venda,
@@ -143,7 +149,7 @@
 	$linhas=mysqli_num_rows($resultado);
 ?>
 	<div class="container theme-showcase" role="main">     
-		 <?php if($caixa_aberto == true){?>
+		 <?php if($nova_venda) { ?>
 
 		<div class="pull-right div_fecha_caixa">
 			<h3>Caixa Aberto</h1>
@@ -169,7 +175,7 @@
   </div>
 	  <div class="row espaco">
 			<div class="pull-right">
-  				<?php if(($nova_venda)) { ?>
+  				<?php if($nova_venda) { ?>
 					<a href="administrativo.php?link=51"><button type='button' class='btn btn-sm btn-success'>Nova Venda</button></a>
   				<?php } ?>
 			</div>
@@ -200,6 +206,7 @@
 						echo "<td>".$linhas['data_pgto']."</td>";
 						echo "<td>".$linhas['descricao_metodo_pgto']."</td>";
 						?>
+
 						<td> 
 						<a href='administrativo.php?link=53&id=<?php echo $linhas['cod_venda']; ?>'><button type='button' class='btn btn-sm btn-primary'>Visualizar</button></a>
 						
